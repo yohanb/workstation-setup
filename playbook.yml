@@ -16,20 +16,21 @@
       src: https://github.com/microsoft/artifacts-credprovider/releases/latest/download/Microsoft.NuGet.CredentialProvider.tar.gz
       dest: ~/.nuget/plugins
       remote_src: yes
-  - name: install vscode and slack (classic)
+  - name: install snaps (classic)
     become: true
     community.general.snap:
       name:
       - code
       - slack
       classic: yes
-  - name: install discord, teams, flameshot
+  - name: install snaps
     become: true
     community.general.snap:
       name:
       - discord
       - teams-for-linux
       - flameshot
+      - 1password
   - name: Install apt packages
     become: true
     apt:
