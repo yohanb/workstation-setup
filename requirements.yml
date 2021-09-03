@@ -1,0 +1,24 @@
+collections:
+- community.general
+
+roles:
+- src: geerlingguy.nodejs
+  name: nodejs
+
+- src: geerlingguy.docker
+  name: docker
+
+- src: andrewrothstein.kubectl
+  name: kubectl
+  
+- src: geerlingguy.helm
+  name: helm
+
+- src: huxoll.azure-cli
+  name: azure-cli
+
+- src: diodonfrost.p10k
+  name: p10k
+
+- src: webarchitect609.jet_brains_toolbox
+  name: jet_brains_toolbox

@@ -1,0 +1,53 @@
+---
+
+- name: Install zsh, fzf
+  package:
+    name:
+      - zsh
+      - fzf
+    state: present
+  become: true
+
+- name: Check if oh-my-zsh exists
+  stat:
+    path: "~/.oh-my-zsh"
+  register: ohmyzsh
+  changed_when: false
+  check_mode: no
+
+- name: Download oh-my-zsh installer
+  get_url: url=https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh dest=~/zsh-installer.sh
+  when: not ohmyzsh.stat.exists
+
+- name: chmod +x oh-my-zsh installer
+  file: dest=~/zsh-installer.sh mode=+x
+  when: not ohmyzsh.stat.exists
+
+- name: Execute oh-my-zsh installer
+  shell: ~/zsh-installer.sh
+  when: not ohmyzsh.stat.exists
+
+- name: zsh-autosuggestions
+  ansible.builtin.git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/
+
+- name: zsh-syntax-highlighting
+  ansible.builtin.git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/
+
+- name: Add plugins
+  lineinfile:
+    path: ~/.zshrc
+    regexp: "^plugins=.*$"
+    line: "plugins=(git docker docker-compose dotnet zsh-autosuggestions kubectl terraform z fzf zsh-syntax-highlighting)"
+    mode: '0644'
+    create: yes
+
+- name: Add azure-cli autocomplete
+  ansible.builtin.lineinfile:
+    path: ~/.zshrc
+    regexp: '^source \/etc\/bash_completion.d\/azure-cli'
+    insertafter: EOF
+    line: source /etc/bash_completion.d/azure-cli
