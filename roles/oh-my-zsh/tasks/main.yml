@@ -51,3 +51,16 @@
     regexp: '^source \/etc\/bash_completion.d\/azure-cli'
     insertafter: EOF
     line: source /etc/bash_completion.d/azure-cli
+
+- name: ensure aliases file exists
+  copy:
+    content: ""
+    dest: ~/.aliases
+    force: no
+
+- name: Add aliases source
+  ansible.builtin.lineinfile:
+    path: ~/.zshrc
+    regexp: '^source $HOME\/.aliases$'
+    insertafter: EOF
+    line: source $HOME/.aliases

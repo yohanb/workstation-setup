@@ -12,9 +12,8 @@
 
   tasks:
   - name: azure credential provider
-    become: true
     ansible.builtin.unarchive:
-      src: https://github.com/microsoft/artifacts-credprovider/releases/download/latest/Microsoft.NuGet.CredentialProvider.tar.gz
+      src: https://github.com/microsoft/artifacts-credprovider/releases/latest/download/Microsoft.NuGet.CredentialProvider.tar.gz
       dest: ~/.nuget/plugins
       remote_src: yes
   - name: install vscode and slack (classic)
@@ -31,8 +30,68 @@
       - discord
       - teams-for-linux
       - flameshot
-  - name: Install htop
+  - name: Install apt packages
     become: true
     apt:
       pkg:
       - htop
+      - xsel
+      - xclip
+      - gnome-shell-extensions
+      - gnome-shell-extension-prefs
+      - gnome-tweaks      
+      - gnome-tweak-tool
+      - dconf-editor
+      - python3-pip
+  - name: Create utils directory
+    ansible.builtin.file:
+      path: ~/.utils
+      state: directory
+  - name: Add web search util
+    ansible.builtin.file:
+      src: files/search-web-selection.sh
+      dest: ~/.utils/search-web-selection.sh
+      state: hard
+      mode: u+x
+      force: yes
+  - name: Add aliases
+    ansible.builtin.lineinfile:
+      path: ~/.aliases
+      regexp: "^alias copy='xclip -sel clip'$"
+      insertafter: EOF
+      line: alias copy='xclip -sel clip'
+  - name: Add aliases
+    ansible.builtin.lineinfile:
+      path: ~/.aliases
+      regexp: "^alias copy='xclip -sel clip'$"
+      insertafter: EOF
+      line: alias copy='xclip -sel clip'
+  - name: install python packages
+    pip: 
+      name: psutil
+      state: latest
+  - name: Configure dock
+    community.general.dconf:
+      key: "{{ item.key }}"
+      value: "{{ item.value }}"
+      state: present
+    with_dict: 
+      - "/org/gnome/shell/extensions/dash-to-dock/extend-height": "false"
+      - "/org/gnome/shell/extensions/dash-to-dock/dock-position": "'BOTTOM'"
+      - "/org/gnome/shell/extensions/dash-to-dock/transparency-mode": "'FIXED'"
+      - "/org/gnome/shell/extensions/dash-to-dock/dash-max-icon-size": "42"
+      - "/org/gnome/shell/extensions/dash-to-dock/unity-backlit-items": "false"
+  - name: Configure keyboard shortcuts
+    community.general.dconf:
+      key: "{{ item.key }}"
+      value: "{{ item.value }}"
+      state: present
+    with_dict: 
+      - "/org/gnome/settings-daemon/plugins/media-keys": "['<Super>e']"
+      - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding": "'Print'"
+      - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command": "'/usr/bin/flameshot gui'"
+      - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name": "'flameshot'"
+      - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/binding": "['<Primary><Shift>w']"
+      - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/command": "'bash -c \"$HOME/.utils/search-web-selection.sh\"'"
+      - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/name": "'Search Google with selection'"
+      - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings": "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/','/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
