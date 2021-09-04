@@ -2,20 +2,20 @@
   connection: local 
   roles:
   - oh-my-zsh
-  - { role: p10k, zsh_plugin: ohmyzsh, p10k_prompt_style: lean, p10k_prompt_height: one-line }
-  - { role: jet_brains_toolbox, become: true }
-  - { role: docker, become: true }
-  - { role: nodejs, become: true }
-  - { role: kubectl, become: true }
-  - { role: helm, become: true }
-  - { role: azure-cli, become: true }
+  # - { role: p10k, zsh_plugin: ohmyzsh, p10k_prompt_style: lean, p10k_prompt_height: one-line }
+  # - { role: jet_brains_toolbox, become: true }
+  # - { role: docker, become: true }
+  # - { role: nodejs, become: true }
+  # - { role: kubectl, become: true }
+  # - { role: helm, become: true }
+  # - { role: azure-cli, become: true }
 
   tasks:
   - name: apt packages
     include: tasks/apt.yml
-  - name: snap packages
-    include: tasks/snaps.yml
-  - name: utils
-    include: tasks/utils.yml
-  - name: gnome customization
-    include: tasks/dconf.yml
+  # - name: snap packages
+  #   include: tasks/snaps.yml
+  # - name: utils
+  #   include: tasks/utils.yml
+  # - name: gnome customization
+  #   include: tasks/dconf.yml
