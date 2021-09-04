@@ -1,0 +1,15 @@
+---
+- name: install snaps (classic)
+  become: true
+  community.general.snap:
+    name:
+    - code
+    - slack
+    classic: yes
+- name: install snaps
+  become: true
+  community.general.snap:
+    name:
+    - discord
+    - teams-for-linux
+    - flameshot

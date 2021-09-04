@@ -1,0 +1,37 @@
+---
+- name: Create nuget plugins directory
+  ansible.builtin.file:
+    path: ~/.nuget/plugins
+    state: directory
+- name: azure credential provider
+  ansible.builtin.unarchive:
+    src: https://github.com/microsoft/artifacts-credprovider/releases/latest/download/Microsoft.NuGet.CredentialProvider.tar.gz
+    dest: ~/.nuget/plugins
+    remote_src: yes
+- name: Create utils directory
+  ansible.builtin.file:
+    path: ~/.utils
+    state: directory
+- name: Add web search util
+  ansible.builtin.file:
+    src: files/search-web-selection.sh
+    dest: ~/.utils/search-web-selection.sh
+    state: hard
+    mode: u+x
+    force: yes
+- name: Add aliases
+  ansible.builtin.lineinfile:
+    path: ~/.aliases
+    regexp: "^alias copy='xclip -sel clip'$"
+    insertafter: EOF
+    line: alias copy='xclip -sel clip'
+- name: Add aliases
+  ansible.builtin.lineinfile:
+    path: ~/.aliases
+    regexp: "^alias copy='xclip -sel clip'$"
+    insertafter: EOF
+    line: alias copy='xclip -sel clip'
+- name: install python packages
+  pip: 
+    name: psutil
+    state: latest

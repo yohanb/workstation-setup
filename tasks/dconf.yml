@@ -1,0 +1,26 @@
+---
+- name: Configure dock
+  community.general.dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  with_dict: 
+    - "/org/gnome/shell/extensions/dash-to-dock/extend-height": "false"
+    - "/org/gnome/shell/extensions/dash-to-dock/dock-position": "'BOTTOM'"
+    - "/org/gnome/shell/extensions/dash-to-dock/transparency-mode": "'FIXED'"
+    - "/org/gnome/shell/extensions/dash-to-dock/dash-max-icon-size": "42"
+    - "/org/gnome/shell/extensions/dash-to-dock/unity-backlit-items": "false"
+- name: Configure keyboard shortcuts
+  community.general.dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  with_dict: 
+    - "/org/gnome/settings-daemon/plugins/media-keys": "['<Super>e']"
+    - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding": "'Print'"
+    - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command": "'/usr/bin/flameshot gui'"
+    - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name": "'flameshot'"
+    - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/binding": "['<Primary><Shift>w']"
+    - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/command": "'bash -c \"$HOME/.utils/search-web-selection.sh\"'"
+    - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/name": "'Search Google with selection'"
+    - "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings": "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/','/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"

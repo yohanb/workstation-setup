@@ -1,0 +1,18 @@
+---
+- apt:
+    pkg:
+    - htop
+    - xsel
+    - xclip
+    - gnome-shell-extensions
+    - gnome-shell-extension-prefs
+    - gnome-tweaks
+    - gnome-tweak-tool
+    - dconf-editor
+    - python3-pip
+    - dconf-cli
+  become: true
+
+- apt:
+    deb: https://downloads.1password.com/linux/debian/amd64/stable/1password-latest.deb
+  become: true
