@@ -1,12 +1,12 @@
 ---
-- name: Create nuget plugins directory
+- name: Ensure nuget directory
   ansible.builtin.file:
-    path: ~/.nuget/plugins
+    path: ~/.nuget
     state: directory
 - name: azure credential provider
   ansible.builtin.unarchive:
     src: https://github.com/microsoft/artifacts-credprovider/releases/latest/download/Microsoft.NuGet.CredentialProvider.tar.gz
-    dest: ~/.nuget/plugins
+    dest: ~/.nuget
     remote_src: yes
 - name: Create utils directory
   ansible.builtin.file:
