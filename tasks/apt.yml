@@ -8,7 +8,7 @@
     update_cache: true
     pkg:
     - apt-transport-https
-    - dotnet-sdk-5.0
+    - dotnet-sdk-6.0
     - htop
     - xsel
     - xclip
